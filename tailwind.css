@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root {
+  --primary: #D5F5E6;
+  --secondary: #96CFBE;
+  --gold: #D5F5E6;
+}
+
+@layer base {
+  @font-face {
+    font-family: 'Fleur';
+    src: url(./assets/fonts/Fleur_De_Leah/FleurDeLeah-Regular.ttf) format('truetype');
+  }
+  @font-face {
+    font-family: 'Montserrat';
+    src: url(./assets/fonts/Montserrat/Montserrat-Regular.ttf) format('truetype');
+  }
+  @font-face {
+    font-family: 'Moontime';
+    src: url(./assets/fonts/Moontime/MoonTime-Regular.ttf) format('truetype');
+  }
+}
+
+/* Scrollbar */
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0,0,0, 0.2);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #bafde9;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary);
+}
