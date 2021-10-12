@@ -1,11 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-:root {
-  --primary: #D5F5E6;
-  --secondary: #96CFBE;
-  --gold: #D5F5E6;
-}
 
 @layer base {
   @font-face {
@@ -25,8 +20,8 @@
 /* Scrollbar */
 
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 6px;
+  width: 5px;
+  height: 3px;
 }
 
 ::-webkit-scrollbar-track {

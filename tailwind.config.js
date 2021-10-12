@@ -10,15 +10,26 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'primary': 'var(--primary)',
-        'secondary': 'var(--secondary)',
-        'gold': 'var(--gold)'
+        'primary': 'rgb(4, 120, 87)',
+        'secondary': '#D5F5E6',
+        'terceary': '#96CFBE',
+        'quaternary': 'rgb(251, 191, 36)',
+        'shadow': 'rgba(0, 0, 0, 0.1)'
       },
       fontFamily: {
         montserrat: 'Montserrat',
         fleur: 'Fleur',
         moontime: 'Moontime'
       },
+      spacing: {
+        '100': '25rem',
+        '104': '26rem',
+        '112': '28rem',
+        '120': '30rem',
+        '128': '32rem',
+        '136': '34rem',
+        '144': '36rem'
+      }
     },
   },
   variants: {
