@@ -19,10 +19,10 @@ const AdminProvider = (props) => {
     const [state, setState] = useState(initialState)
 
     const validate = async (username, password) => {
-        //Validate with backend
-        if(!username || !password) {
+        if (!username || !password) {
             return false
         }
+        //Validate with backend
         return true
     }
 
@@ -34,18 +34,22 @@ const AdminProvider = (props) => {
             password,
             validated
         })
+        return validated
     }
 
     useEffect(() => {
         const username = localStorage.getItem('username')
         const password = localStorage.getItem('password')
-            setCredentials(username, password)
+        setCredentials(username, password)
     }, [])
 
-    const login = (username, password) => {
+    const login = async (username, password) => {
         localStorage.setItem('username', username)
         localStorage.setItem('password', password)
-        setCredentials(username, password)
+        const validated = await setCredentials(username, password)
+        if(!validated) {
+            throw new Error('Usuario o contraseña inválida')
+        }
     }
 
     const logout = () => {

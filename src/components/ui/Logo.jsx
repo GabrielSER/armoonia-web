@@ -6,9 +6,9 @@ const Logo = (props) => {
 
     return (
         <img
+            className={className}
             src={logo}
             alt=''
-            className={className}
         />
     )
 }

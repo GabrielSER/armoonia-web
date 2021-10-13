@@ -3,6 +3,7 @@ import { formatter } from '../../common/format'
 import { useAdmin } from '../../contexts/AdminContext'
 import { BsFillCartPlusFill, BsFillCartDashFill, BsPencilFill } from 'react-icons/bs'
 import { MdDelete } from 'react-icons/md'
+import Card from './Card'
 
 
 const CartButton = (props) => {
@@ -40,7 +41,14 @@ const ButtonBar = () => {
     const { validated } = useAdmin()
 
     return (
-        <div className='flex space-x-3 p-2 absolute right-0'>
+        <div
+            className={clsx(
+                'flex',
+                'space-x-3',
+                'p-2 absolute',
+                'right-0'
+            )}
+        >
             {
                 validated &&
                 <>
@@ -72,75 +80,60 @@ const ProductCard = (props) => {
     const { product, amount } = detail
 
     return (
-        <div
-            className={clsx(
-                'flex',
-                'flex-shrink-0',
-                'w-64 h-96',
-                'p-0.5',
-                'bg-gradient-to-br',
-                'from-secondary',
-                'to-primary',
-                'rounded-lg',
-                'shadow-lg',
-                'font-montserrat'
-            )}
-        >
+        <Card className='w-64 h-96 flex-shrink-0'>
             <div
                 className={clsx(
                     'flex',
-                    'flex-col',
-                    'flex-shrink-0',
-                    'w-full h-full',
-                    'bg-white',
-                    'rounded-lg',
-                    'shadow-lg'
+                    'relative',
+                    'w-full',
+                    'h-3/5'
                 )}
             >
-                <div
+                <img
+                    className='w-full h-full object-cover'
+                    src={product.photo}
+                />
+                <ButtonBar />
+                <label
                     className={clsx(
-                        'flex',
-                        'relative',
-                        'w-full',
-                        'h-3/5'
+                        'absolute',
+                        'bottom-0',
+                        'right-0',
+                        'p-1',
+                        'bg-secondary',
+                        'rounded-tl-md',
+                        'text-sm',
+                        'text-primary',
+                        'font-semibold'
                     )}
                 >
-                    <img
-                        className='w-full h-full object-cover'
-                        src={product.photo}
-                    />
-                    <ButtonBar />
-                    <label
-                        className={clsx(
-                            'absolute',
-                            'bottom-0',
-                            'right-0',
-                            'p-1',
-                            'bg-secondary',
-                            'rounded-tl-md',
-                            'text-sm',
-                            'text-primary',
-                            'font-semibold'
-                        )}
-                    >
-                        {`${amount} diponibles`}
-                    </label>
-                </div>
-
-                <div className='flex flex-col p-3'>
-                    <label className='h-12 font-bold overflow-hidden overflow-ellipsis'>
-                        {product.name}
-                    </label>
-                    <label className='font-bold text-primary'>
-                        {`${formatter.format(product.price)} COP`}
-                    </label>
-                    <p className='h-12 text-xs overflow-x-none overflow-y-auto '>
-                        {product.description}
-                    </p>
-
-                </div>
+                    {`${amount} diponibles`}
+                </label>
             </div>
-        </div>
+            <div className='flex flex-col p-3'>
+                <label className={clsx(
+                    'h-12',
+                    'font-bold',
+                    'overflow-hidden',
+                    'overflow-ellipsis'
+                )}
+                >
+                    {product.name}
+                </label>
+                <label className='font-bold text-primary'>
+                    {`${formatter.format(product.price)} COP`}
+                </label>
+                <p
+                    className={clsx(
+                        'h-12',
+                        'text-xs',
+                        'overflow-x-none overflow-y-auto'
+                    )}
+                >
+                    {product.description}
+                </p>
+            </div>
+        </Card>
     )
 }
 

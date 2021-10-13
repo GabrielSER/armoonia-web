@@ -14,7 +14,7 @@ module.exports = {
         'secondary': '#D5F5E6',
         'terceary': '#96CFBE',
         'quaternary': 'rgb(251, 191, 36)',
-        'shadow': 'rgba(0, 0, 0, 0.1)'
+        'shadow': 'rgba(0, 0, 0, 0.2)'
       },
       fontFamily: {
         montserrat: 'Montserrat',
@@ -35,5 +35,7 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/aspect-ratio')
+  ]
 }

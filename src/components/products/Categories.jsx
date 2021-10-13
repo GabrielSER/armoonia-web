@@ -1,4 +1,3 @@
-import Logo from '../ui/Logo'
 import aretes from '../../assets/images/arete.png'
 import collares from '../../assets/images/collar.png'
 import pulseras from '../../assets/images/pulsera.png'
@@ -15,7 +14,7 @@ const Category = (props) => {
                 'flex-col',
                 'items-center',
                 'hover:underline',
-                'ransition duration-200 ease-in-out transform hover:scale-110t'
+                'duration-200 ease-in-out transform hover:scale-110'
             )}
         >
             <img
@@ -31,20 +30,47 @@ const Category = (props) => {
                 src={props.url}
                 alt=''
             />
-            <span className='flex lg:justify-center font-montserrat text-gray-800 font-black'>
+            <span
+                className={clsx(
+                    'flex',
+                    'lg:justify-center',
+                    'font-montserrat',
+                    'text-gray-800',
+                    'font-black'
+                )}
+            >
                 <p>{props.name}</p>
             </span>
-        </div>
+        </div >
     )
 }
 
-const Nav = () => {
+const Categories = () => {
     return (
-        <div className='flex flex-row md:flex-col flex-shrink-0 order-last md:order-first w-full md:w-32 h-24 md:h-full bg-secondary shadow-2xl'>
-            <div className='hidden md:flex w-full h-36 justify-center'>
-                <Logo className='flex w-full object-contain p-2' />
-            </div>
-            <div className='flex md:flex-col p-2 md:p-0 gap-4 md:gap-0 w-full justify-center md:items-center overflow-x-auto md:overflow-x-hidden'>
+        <div
+            className={clsx(
+                'flex',
+                'flex-row md:flex-col',
+                'flex-shrink-0',
+                'order-last md:order-first',
+                'w-full md:w-32 h-24 md:h-full',
+                'bg-secondary',
+                'shadow-2xl'
+            )}
+        >
+            <div
+                className={clsx(
+                    'flex',
+                    'md:flex-col',
+                    'p-2 md:p-0',
+                    'gap-4 md:gap-0',
+                    'w-full',
+                    'justify-center',
+                    'md:items-center',
+                    'overflow-x-auto',
+                    'md:overflow-x-hidden'
+                )}
+            >
                 <Category name='Aretes' url={aretes} />
                 <Category name='Earcuff' url={earcuffs} />
                 <Category name='Collares' url={collares} />
@@ -52,8 +78,8 @@ const Nav = () => {
                 <Category name='Tobilleras' url={tobilleras} />
                 <Category name='Gaferos' url={gaferos} />
             </div>
-        </div>
+        </div >
     )
 }
 
-export default Nav
+export default Categories

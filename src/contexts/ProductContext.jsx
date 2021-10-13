@@ -5,33 +5,30 @@ import {
     useMemo,
     useContext
 } from 'react'
+import { useArmoonia } from '../hooks/useArmoonia'
 
 const ProductContext = createContext()
 
 const ProductProvider = (props) => {
 
     const [products, setProducts] = useState([])
+    const { query } = useArmoonia()
 
     useEffect(() => {
-       //traer del backend
-       const traer = async (params) => {
-        const response = await fetch('/api/products/', {
-            mode:'cors',
-            method: 'GET'
-        })
-        const products = await response.json()
-        console.log(products)
-        setProducts(products)
-       }
-       traer()
-     }, [])
+        const fetchProducts = async (params) => {
+            const products = await query('/api/products/')
+            console.log(products)
+            setProducts(products)
+        }
+        fetchProducts()
+    }, [])
 
     const addProduct = (value) => {
-       
+
     }
 
     const removeProduct = () => {
-      
+
     }
 
     const value = useMemo(() => ({

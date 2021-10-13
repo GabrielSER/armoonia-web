@@ -5,6 +5,8 @@ import Input from '../ui/Input'
 import Button from '../ui/Button'
 import clsx from 'clsx'
 import { useAdmin } from '../../contexts/AdminContext'
+import AdminNavigation from './AdminNavigation'
+import { BsSearch } from 'react-icons/bs'
 
 
 const SearchInput = () => {
@@ -16,41 +18,80 @@ const SearchInput = () => {
     }
 
     return (
-        <div
-            className={clsx(
-                'flex',
-                ''
-            )}
-        >
-            <Input
-                id='search'
-                value={inputValue}
-                onChange={(event) => setInputValue(event.target.value)}
-            />
-            <Button onClick={search}>
-                Search
-            </Button>
+        <div className='md:pr-4'>
+            <div
+                className={clsx(
+                    'flex',
+                    'h-10',
+                    'pl-5',
+                    'rounded-full',
+                    'bg-white',
+                    'border',
+                    'border-primary'
+                )}
+            >
+                <input
+                    className={clsx(
+                        'px-2 py-1',
+                        'appearance-none',
+                        'bg-transparent',
+                        'focus:outline-none'
+                    )}
+                    value={inputValue}
+                    onChange={(event) => setInputValue(event.target.value)}
+                />
+                <button
+                    className={clsx(
+                        'flex',
+                        'py-1 px-3',
+                        'space-x-1',
+                        'justify-center',
+                        'items-center',
+                        'rounded-r-full',
+                        'shadow-md',
+                        'bg-primary',
+                        'text-sm md:text-lg',
+                        'text-secondary',
+                        'font-bold',
+                        'hover:opacity-70',
+                        'focus:opacity-70',
+                        'focus:border',
+                        'focus:border-quaternary',
+                        'focus:outline-none'
+                    )}
+                    onClick={search}>
+                    <BsSearch />
+                    <span className='hidden md:flex'>
+                        Buscar
+                    </span>
+                </button>
+            </div>
         </div>
     )
 }
 
-const AdminNavigation = (params) => {
+const Title = () => {
     return (
-        <div
+        <span
             className={clsx(
-                'flex',
-                'items-center',
-                'w-full h-12',
-                'bg-primary',
-                'rounded-l-full',
-                'px-4 py-1'
-            )}>
-            <Button>
-                Ordenes
-            </Button>
-        </div>
+                'hidden md:flex',
+                'flex-wrap',
+                'md:gap-x-2',
+                'text-2xl md:text-3xl',
+                'text-gray-800',
+                'font-moontime',
+                'font-black'
+            )}
+        >
+            La belleza de estar en
+            <span className='text-primary'>
+                ARMOONIA
+            </span>
+            con lo que eres
+        </span>
     )
 }
+
 
 const Header = () => {
 
@@ -60,53 +101,44 @@ const Header = () => {
         <div
             className={clsx(
                 'flex',
-                'flex-col',
-                'justify-between',
-                'flex-shrink-0',
                 'w-full',
-                'p-4',
+                'h-24 md:h-32',
+                'flex-initial',
                 'bg-secondary',
                 'shadow-lg'
             )}
         >
-            {
-                validated &&
-                <AdminNavigation />
-            }
+            <Logo className='w-24 md:w-32 p-2' />
             <div
                 className={clsx(
                     'flex',
-                    'items-center',
-                    'justify-between',
-                    'flex-shrink-0',
+                    'flex-col',
                     'w-full',
-                )}>
-                <Logo
+                    'justify-center',
+                    'overflow-y-hidden',
+                    'overflow-x-hidden',
+                    'p-1',
+                    'space-y-2'
+                )}
+            >
+                {
+                    validated &&
+                    <AdminNavigation />
+                }
+                <div
                     className={clsx(
-                        'object-contain',
-                        'h-16 md:h-20',
-                        'md:hidden'
-                    )}
-                />
-                <span
-                    className={clsx(
-                        'hidden md:flex',
-                        'flex-wrap',
-                        'md:gap-x-2',
-                        'text-2xl lg:text-4xl',
-                        'text-gray-800',
-                        'font-moontime font-black',
-                    )}
-                >
-                    La belleza de estar en
-                    <span className='text-primary'>
-                        ARMOONIA
-                    </span>
-                    con lo que eres
-                </span>
-                <SearchInput />
-            </div>
+                        'flex',
+                        'flex-row-reverse',
+                        'justify-center',
+                        'justify-between',
+                        'flex-shrink-0',
+                        'w-full'
+                    )}>
+                    <SearchInput />
+                    <Title />
 
+                </div>
+            </div>
         </div>
     )
 }
