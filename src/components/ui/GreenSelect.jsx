@@ -21,10 +21,22 @@ const GreenOption = (props) => {
 }
 
 const GreenSelect = (props) => {
+    const { label } = props
+    const properties = { ...props }
+    delete properties.label
+
     return (
+        <>            
+        {
+            label &&
+            <label className='flex font-montserrat text-sm'>
+                {label}
+            </label>
+        }
         <Select
             className={clsx(
                 'relative',
+                'text-sm',
                 'border',
                 'border-primary',
                 'outline-none'
@@ -38,6 +50,7 @@ const GreenSelect = (props) => {
             component={GreenOption}
             {...props}
         />
+        </>
     )
 }
 

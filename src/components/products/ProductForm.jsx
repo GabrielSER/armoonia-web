@@ -7,11 +7,17 @@ import ImageInput from '../ui/ImageInput'
 import clsx from 'clsx'
 import GreenImageInput from '../ui/GreenImageInput'
 import GreenSelect from '../ui/GreenSelect'
+import Button from '../ui/Button'
+import {AiOutlineCloseCircle} from 'react-icons/ai'
 
 const productCategories = [
-    'Earings',
-    'Bracelets',
-    'Anklets'
+    'Arete',
+    'Brazalete',
+    'Tobillera',
+    'Earcuff',
+    'Collar',
+    'Gafero',
+    'Tapabocas'
 ]
 
 const initialProduct = {
@@ -27,17 +33,40 @@ const ProductForm = () => {
     const [product, setProduct] = useState(initialProduct)
     console.log(product)
     return (
-        <Card className='w-64 md:w-96 h-100 flex-shrink p-2 space-y-2'>
-            <h1 className={clsx(
-                'flex',
-                'font-fleur',
-                'text-4xl',
-                'justify-center',
-                'text-primary'
-            )}
-            >
-                Nuevo Producto
-            </h1>
+        <Card className='w-64 md:w-120 h-140 flex-shrink p-2 space-y-1'>
+            <div className='flex flex-row-reverse justify-between items-center'>
+            <button
+                    className={clsx(
+                        'flex',
+                        'text-3xl',
+                        'text-primary'
+                    )}
+                >
+                    <AiOutlineCloseCircle/>
+                </button>
+                <h1
+                    className={clsx(
+                        'flex',
+                        'font-fleur',
+                        'text-3xl',
+                        'self-center',
+                        'text-primary'
+                    )}
+                >
+                    Nuevo Producto
+                </h1>                <h1
+                    className={clsx(
+                        'flex',
+                        'font-fleur',
+                        'text-3xl',
+                        'self-center',
+                        'text-primary'
+                    )}
+                >
+                    
+                </h1>
+            </div>
+
             <GreenInput
                 label='Nombre'
                 name='name'
@@ -52,6 +81,7 @@ const ProductForm = () => {
                 setState={setProduct}
             />
             <GreenSelect
+                label='Categoría'
                 name='category'
                 state={product}
                 setState={setProduct}
@@ -63,10 +93,13 @@ const ProductForm = () => {
                 state={product}
                 setState={setProduct}
             />
-            <div className='w-1/2'>
+            <div className='w-1/2 self-center'>
                 <GreenImageInput
                 />
             </div>
+            <Button>
+                Agregar
+            </Button>
         </Card>
     )
 }

@@ -5,6 +5,7 @@ import Logo from '../ui/Logo'
 import { useAdmin } from '../../contexts/AdminContext'
 import clsx from 'clsx'
 import { useHistory } from 'react-router'
+import GreenInput from '../ui/GreenInput'
 
 const initialState = {
     username: '',
@@ -16,6 +17,7 @@ const Login = () => {
     const history = useHistory()
     const { login } = useAdmin()
     const [state, setState] = useState(initialState)
+    console.log(state)
 
     const set = (event) => {
         const { id, value } = event.target
@@ -26,7 +28,7 @@ const Login = () => {
         try {
             await login(state.username, state.password)
             history.push('/products')
-        } 
+        }
         catch (error) {
             console.log('Cagaste light')
         }
@@ -77,22 +79,18 @@ const Login = () => {
                     <h1 className='flex font-fleur text-4xl justify-center'>
                         Ingresa
                     </h1>
-                    <label className='font-montserrat'>
-                        Usuario
-                    </label>
-                    <Input
+                    <GreenInput
+                        label='Usuario'
                         id='username'
-                        value={state.username}
-                        onChange={set}
+                        state={state.username}
+                        setState={set}
                     />
-                    <label className='font-montserrat'>
-                        Contraseña
-                    </label>
-                    <Input
+                    <GreenInput
+                        label='Contraseña'
                         id='password'
                         type='password'
-                        value={state.password}
-                        onChange={set}
+                        state={state.password}
+                        setState={set}
                     />
                     <Button onClick={signIn}>
                         Log in

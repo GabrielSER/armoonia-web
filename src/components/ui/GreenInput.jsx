@@ -11,7 +11,7 @@ const GreenInput = (props) => {
         <>
             {
                 label &&
-                <label className='flex font-montserrat text-md'>
+                <label className='flex font-montserrat text-sm'>
                     {label}
                 </label>
             }
