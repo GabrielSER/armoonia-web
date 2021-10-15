@@ -2,6 +2,7 @@ import clsx from 'clsx'
 import { useCallback, useEffect, useState } from 'react'
 import { useProducts } from '../../contexts/ProductContext'
 import { BsChevronCompactRight, BsChevronCompactLeft } from 'react-icons/bs'
+import carrousel_images from '../../assets/data/carrusel_images.json'
 
 const Arrow = (props) => {
 
@@ -36,11 +37,14 @@ const Carrousell = () => {
     const { products } = useProducts()
 
     useEffect(() => {
-        let images = products.map(detail => detail.product.photo)
-        images.push('https://hello-mandarinna.com/wp-content/uploads/2021/10/poster-largo-cabello-claro-2-01.png')       
-        setImages(images)
-        setIndex(0)
-    }, [products])
+        const loadImages = async () => {
+            const carrousell_promises = carrousel_images.map(async (image) => await import(`../../assets/images/${image}`))
+            const carrousell_routes = (await Promise.all(carrousell_promises)).map(m => m.default)
+            setImages(carrousell_routes)
+            setIndex(0)
+        }
+        loadImages()
+    }, [])
 
     const next = useCallback(() => {
         const nextIndex = index === images.length - 1 ? 0 : index + 1

@@ -3,9 +3,10 @@ import {
     useState,
     useEffect,
     useMemo,
-    useContext
+    useContext,
+    useCallback
 } from 'react'
-import { useArmoonia } from '../hooks/useArmoonia'
+import { httpMethod, useArmoonia } from '../hooks/useArmoonia'
 
 const ProductContext = createContext()
 
@@ -17,24 +18,55 @@ const ProductProvider = (props) => {
     useEffect(() => {
         const fetchProducts = async (params) => {
             const products = await query('/api/products/')
-            console.log(products)
             setProducts(products)
         }
         fetchProducts()
     }, [])
 
-    const addProduct = (value) => {
+    const addProduct = useCallback(async (product) => {
+        const newProduct = await query('api/products/', {
+            method: httpMethod.POST,
+            body: product
+        })
+        setProducts([...products, newProduct])
+    }, [products])
 
-    }
+    const deleteProduct = useCallback(async (id) => {
+        await query(`api/products/${id}`, {
+            method: httpMethod.DELETE
+        })
+        const index = products.findIndex(product => product.product.id === id)
+        if (index >= 0) {
+            products.splice(index, 1)
+            setProducts([...products])
+        }
+    }, [products])
 
-    const removeProduct = () => {
-
-    }
+    const updateProduct = useCallback(async (productDetail) => {
+        const { product, amount } = productDetail
+        await query(`api/products/inventory`, {
+            method: httpMethod.PUT,
+            body: {
+                product_id: product.id,
+                amount
+            }
+        })
+        const updatedProduct = await query(`api/products/`, {
+            method: httpMethod.PUT,
+            body: product
+        })
+        const index = products.findIndex(p => p.product.id === product.id)
+        if (index >= 0) {
+            products.splice(index, 1, updatedProduct)
+            setProducts([...products])
+        }
+    }, [products])
 
     const value = useMemo(() => ({
         products,
         addProduct,
-        removeProduct
+        updateProduct,
+        deleteProduct
     }), [products])
 
     return <ProductContext.Provider value={value} {...props} />

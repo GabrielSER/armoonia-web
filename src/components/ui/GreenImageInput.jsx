@@ -36,6 +36,7 @@ const GreenImageInput = () => {
                 'flex',
                 'justify-center',
                 'items-center',
+                'w-full',
                 'aspect-w-16 aspect-h-9',
                 'border',
                 'border-primary',

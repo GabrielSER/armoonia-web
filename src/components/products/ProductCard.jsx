@@ -4,6 +4,7 @@ import { useAdmin } from '../../contexts/AdminContext'
 import { BsFillCartPlusFill, BsFillCartDashFill, BsPencilFill } from 'react-icons/bs'
 import { MdDelete } from 'react-icons/md'
 import Card from './Card'
+import { ProductProvider, useProducts } from '../../contexts/ProductContext'
 
 
 const CartButton = (props) => {
@@ -36,7 +37,10 @@ const CartButton = (props) => {
     )
 }
 
-const ButtonBar = () => {
+const ButtonBar = (props) => {
+
+    const { product, openUpdate } = props
+    const { deleteProduct } = useProducts()
 
     const { validated } = useAdmin()
 
@@ -52,15 +56,21 @@ const ButtonBar = () => {
             {
                 validated &&
                 <>
-                    <CartButton className='text-black'>
+                    <CartButton
+                        className='text-black'
+                        onClick={() => openUpdate(product)}
+                    >
                         <BsPencilFill />
                     </CartButton>
-                    <CartButton className='text-red-600'>
+                    <CartButton
+                        className='text-red-600'
+                        onClick={() => deleteProduct(product.id)}
+                    >
                         <MdDelete />
                     </CartButton>
                 </>
             }
-            <CartButton
+            {/**<CartButton
                 onClick={() => console.log('Remover de carro')}
                 className='text-red-400'
             >
@@ -68,7 +78,7 @@ const ButtonBar = () => {
             </CartButton>
             <CartButton className='text-primary'>
                 <BsFillCartPlusFill />
-            </CartButton>
+            </CartButton>**/}
         </div>
     )
 }
@@ -76,7 +86,7 @@ const ButtonBar = () => {
 
 const ProductCard = (props) => {
 
-    const { detail } = props
+    const { detail, openUpdate } = props
     const { product, amount } = detail
 
     return (
@@ -93,7 +103,7 @@ const ProductCard = (props) => {
                     className='w-full h-full object-cover'
                     src={product.photo}
                 />
-                <ButtonBar />
+                <ButtonBar product={detail} openUpdate={openUpdate} />
                 <label
                     className={clsx(
                         'absolute',
@@ -108,6 +118,21 @@ const ProductCard = (props) => {
                     )}
                 >
                     {`${amount} diponibles`}
+                </label>
+                <label
+                    className={clsx(
+                        'absolute',
+                        'bottom-0',
+                        'left-0',
+                        'p-1',
+                        'bg-secondary',
+                        'rounded-tr-md',
+                        'text-sm',
+                        'text-primary',
+                        'font-semibold'
+                    )}
+                >
+                    {product.category}
                 </label>
             </div>
             <div className='flex flex-col p-3'>

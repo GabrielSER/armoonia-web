@@ -1,11 +1,5 @@
-import aretes from '../../assets/images/arete.png'
-import collares from '../../assets/images/collar.png'
-import pulseras from '../../assets/images/pulsera.png'
-import gaferos from '../../assets/images/gafero.png'
-import tobilleras from '../../assets/images/tobillera.png'
-import earcuffs from '../../assets/images/earcuff.png'
-import facemask from '../../assets/images/tapabocas.png'
 import clsx from 'clsx'
+import product_categories from '../../assets/data/product_categories.json'
 
 const Category = (props) => {
     return (
@@ -74,13 +68,11 @@ const Categories = () => {
                     'md:overflow-x-hidden'
                 )}
             >
-                <Category name='Aretes' url={aretes} />
-                <Category name='Earcuff' url={earcuffs} />
-                <Category name='Collares' url={collares} />
-                <Category name='Pulseras' url={pulseras} />
-                <Category name='Tobilleras' url={tobilleras} />
-                <Category name='Gaferos' url={gaferos} />
-                <Category name='Tapabocas' url={facemask} />
+                {
+                    product_categories.map(category =>
+                        <Category name={category.label} url={category.image} />
+                    )
+                }
             </div>
         </div >
     )

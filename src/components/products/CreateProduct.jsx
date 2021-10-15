@@ -1,13 +1,22 @@
+import { useCallback } from 'react'
+import { useProducts } from '../../contexts/ProductContext'
 import ProductForm from './ProductForm'
 
-const CreateProduct = () => {
+const CreateProduct = (props) => {
 
-    const createProduct = () => {
-        
+    const { closeModal } = props
+    const { addProduct } = useProducts()
+
+    const  submit = async (product) => {
+        await addProduct(product)
     }
-    
+
     return (
         <ProductForm
+            title='Agregar Producto'
+            buttonText='Agregar'
+            onSubmit={submit}
+            closeModal={closeModal}
         />
     )
 }

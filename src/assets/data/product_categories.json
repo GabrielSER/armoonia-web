@@ -1,0 +1,37 @@
+[
+    {
+        "value": "earing",
+        "label": "Arete",
+        "image": "arete.png"
+    },
+    {
+        "value": "bracelet",
+        "label": "Brazalete",
+        "image": "pulsera.png"
+    },
+    {
+        "value": "anklet",
+        "label": "Tobillera",
+        "image": "tobillera.png"
+    },
+    {
+        "value": "earcuff",
+        "label": "Earcuff",
+        "image": "earcuff.png"
+    },
+    {
+        "value": "collar",
+        "label": "Collar",
+        "image": "collar.png"
+    },
+    {
+        "value": "glasses_acc",
+        "label": "Gafero",
+        "image": "gafero.png"
+    },
+    {
+        "value": "facemask",
+        "label": "Tapabocas",
+        "image": "tapabocas.png"
+    }
+]

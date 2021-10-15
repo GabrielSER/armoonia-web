@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useAdmin } from '../../contexts/AdminContext'
 import { useProducts } from '../../contexts/ProductContext'
 import Modal from '../ui/Modal'
@@ -8,6 +8,7 @@ import Carrousell from './Carrousell'
 import CreateProduct from './CreateProduct'
 import NewProductCard from './NewProductCard.jsx'
 import ProductCard from './ProductCard'
+import UpdateProduct from './UpdateProduct'
 
 const ProductList = () => {
 
@@ -15,9 +16,19 @@ const ProductList = () => {
     const { validated } = useAdmin()
     const [modal, setModal] = useState()
 
-    const openCreateProduct = () => {
-        setModal(<CreateProduct/>)
-    }
+
+    const closeModal = useCallback(() => {
+        setModal(undefined)
+    }, [setModal])
+
+    const openCreateProduct = useCallback(() => {
+        setModal(<CreateProduct closeModal={closeModal} />)
+    }, [setModal, closeModal])
+
+    const openUpdateProduct = useCallback((product) => {
+        setModal(<UpdateProduct product={product} closeModal={closeModal} />)
+    }, [setModal, closeModal])
+
 
     return (
         <div
@@ -34,7 +45,7 @@ const ProductList = () => {
             {
                 modal &&
                 <Modal>
-                   {modal}
+                    {modal}
                 </Modal>
             }
             <Carrousell />
@@ -47,6 +58,7 @@ const ProductList = () => {
                     <ProductCard
                         key={index}
                         detail={product}
+                        openUpdate = {openUpdateProduct}
                     />
                 )
             }

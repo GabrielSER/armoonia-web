@@ -81,16 +81,16 @@ const Login = () => {
                     </h1>
                     <GreenInput
                         label='Usuario'
-                        id='username'
-                        state={state.username}
-                        setState={set}
+                        name='username'
+                        state={state}
+                        setState={setState}
                     />
                     <GreenInput
                         label='Contraseña'
-                        id='password'
+                        name='password'
                         type='password'
-                        state={state.password}
-                        setState={set}
+                        state={state}
+                        setState={setState}
                     />
                     <Button onClick={signIn}>
                         Log in

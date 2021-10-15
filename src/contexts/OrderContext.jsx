@@ -23,7 +23,6 @@ const OrderProvider = (props) => {
         }
         const fetchOrders = async () => {
             const orders = await query('/api/orders/')
-            console.log(orders)
             setOrders(orders)
         }
         fetchOrders()

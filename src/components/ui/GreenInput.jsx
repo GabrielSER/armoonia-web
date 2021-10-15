@@ -18,7 +18,7 @@ const GreenInput = (props) => {
 
             <Input
                 className={clsx(
-
+                    'w-full',
                     'px-2',
                     'py-1',
                     'appearance-none',
