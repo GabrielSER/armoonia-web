@@ -1,5 +1,6 @@
 import clsx from 'clsx'
 import product_categories from '../../assets/data/product_categories.json'
+import { getPublicImage } from '../../common/images'
 
 const Category = (props) => {
     return (
@@ -70,7 +71,7 @@ const Categories = () => {
             >
                 {
                     product_categories.map(category =>
-                        <Category name={category.label} url={category.image} />
+                        <Category name={category.label} url={getPublicImage(category.image)} />
                     )
                 }
             </div>

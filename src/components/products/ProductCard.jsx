@@ -64,7 +64,7 @@ const ButtonBar = (props) => {
                     </CartButton>
                     <CartButton
                         className='text-red-600'
-                        onClick={() => deleteProduct(product.id)}
+                        onClick={() => deleteProduct(product.product.id)}
                     >
                         <MdDelete />
                     </CartButton>

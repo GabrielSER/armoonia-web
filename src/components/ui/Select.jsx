@@ -22,6 +22,7 @@ const Select = (props) => {
         state,
         setState,
         options = [],
+        valueField,
         dropdownStyle
     } = props
 
@@ -34,6 +35,7 @@ const Select = (props) => {
     delete properties.state
     delete properties.setState
     delete properties.options
+    delete properties.valueField
     delete properties.dropdownStyle
     delete properties.children
 
@@ -61,6 +63,7 @@ const Select = (props) => {
             <div className='flex w-full justify-between'>
                 {
                     component({
+                        option: options.find(o => o.value === properties.value),
                         value: properties.value,
                         selected: true
                     })
@@ -101,7 +104,8 @@ const Select = (props) => {
                             >
                                 {
                                     component({
-                                        value: option,
+                                        option,
+                                        value: valueField ? option[valueField] : option,
                                         selected: false
                                     })
                                 }

@@ -9,13 +9,12 @@ import GreenImageInput from '../ui/GreenImageInput'
 import GreenSelect from '../ui/GreenSelect'
 import Button from '../ui/Button'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
-import { useProducts } from '../../contexts/ProductContext'
-
-
+import product_categories from '../../assets/data/product_categories.json'
+import { getPublicImage } from '../../common/images'
 
 const initialProduct = {
     name: '',
-    category: '',
+    category: product_categories[0].value,
     photo: '',
     description: '',
     price: 0
@@ -89,7 +88,9 @@ const ProductForm = (props) => {
                 name='category'
                 state={product}
                 setState={setProduct}
-                options={productCategories}
+                options={product_categories}
+                valueField='value'
+                labelFunction={option => option?.label ?? 'NEL'}
             />
             <GreenTextArea
                 label='Descripción'

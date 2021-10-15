@@ -1,8 +1,9 @@
 import clsx from 'clsx'
 import { useCallback, useEffect, useState } from 'react'
-import { useProducts } from '../../contexts/ProductContext'
 import { BsChevronCompactRight, BsChevronCompactLeft } from 'react-icons/bs'
 import carrousel_images from '../../assets/data/carrusel_images.json'
+import { getPublicImage } from '../../common/images'
+const carrousell_routes = carrousel_images.map(image => getPublicImage(image))
 
 const Arrow = (props) => {
 
@@ -29,21 +30,13 @@ const Arrow = (props) => {
     )
 }
 
-
 const Carrousell = () => {
 
-    const [images, setImages] = useState([])
+    const [images, setImages] = useState(carrousell_routes)
     const [index, setIndex] = useState(-1)
-    const { products } = useProducts()
 
     useEffect(() => {
-        const loadImages = async () => {
-            const carrousell_promises = carrousel_images.map(async (image) => await import(`../../assets/images/${image}`))
-            const carrousell_routes = (await Promise.all(carrousell_promises)).map(m => m.default)
-            setImages(carrousell_routes)
-            setIndex(0)
-        }
-        loadImages()
+        setIndex(0)
     }, [])
 
     const next = useCallback(() => {

@@ -32,6 +32,7 @@ const ProductProvider = (props) => {
     }, [products])
 
     const deleteProduct = useCallback(async (id) => {
+        console.log(id)
         await query(`api/products/${id}`, {
             method: httpMethod.DELETE
         })
