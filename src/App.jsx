@@ -1,6 +1,6 @@
 import Login from './components/admin/Login'
 import Main from './components/main/Main'
-import { Switch, BrowserRouter as Router, Route } from 'react-router-dom'
+import { Switch, BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
 import { AdminProvider } from './contexts/AdminContext'
 
 const App = () => {
@@ -8,9 +8,10 @@ const App = () => {
   return (
     <AdminProvider>
       <Router>
-        <div className='flex fixed inset-0 w-full h-full bg-white'>
+        <div className='flex fixed inset-0 w-full h-full bg-white overflow-x-hidden overflow-y-hidden'>
           <Switch>
-            <Route path='/admin' exact component={Login} />
+            <Redirect exact from='/' to='/products'/> 
+            <Route exact path='/admin' exact component={Login} />
             <Route path='/**' component={Main} />
           </Switch>
         </div>

@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import Input from '../ui/Input'
+import { useState, useEffect } from 'react'
 import Button from '../ui/Button'
 import Logo from '../ui/Logo'
 import { useAdmin } from '../../contexts/AdminContext'
@@ -17,20 +16,26 @@ const Login = () => {
     const history = useHistory()
     const { login } = useAdmin()
     const [state, setState] = useState(initialState)
-    console.log(state)
+    const [error, setError] = useState()
 
-    const set = (event) => {
-        const { id, value } = event.target
-        setState({ ...state, [id]: value })
-    }
+    useEffect(() => {
+        if (!error) {
+            return
+        }
+        const timeOutId = setTimeout(() => {
+            setError(undefined)
+        }, 5000)
+        return () => clearTimeout(timeOutId)
+    }, [error])
 
     const signIn = async () => {
         try {
             await login(state.username, state.password)
             history.push('/products')
+            setError(undefined)
         }
         catch (error) {
-            console.log('Cagaste light')
+            setError(error.message)
         }
     }
 
@@ -92,6 +97,14 @@ const Login = () => {
                         state={state}
                         setState={setState}
                     />
+                    {
+                        error &&
+                        <div className='flex w-full p-2 bg-red-200 text-red-500 border justify-center border-red-500 rounded-md'>
+                            <p>
+                                {error}
+                            </p>
+                        </div>
+                    }
                     <Button onClick={signIn}>
                         Log in
                     </Button>

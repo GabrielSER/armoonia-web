@@ -42,7 +42,7 @@ const Select = (props) => {
     const [selectState, setSelectState] = useState(initialState)
 
     const onSelectChange = (option) => {
-        const value = option
+        const value = valueField ? option[valueField] : option
         if (onChange) {
             const change = { value }
             if (name) {

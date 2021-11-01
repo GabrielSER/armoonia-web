@@ -10,13 +10,21 @@ import { httpMethod, useArmoonia } from '../hooks/useArmoonia'
 
 const ProductContext = createContext()
 
+const initialFilterOptions = {
+    input: '',
+    categories: []
+}
+
 const ProductProvider = (props) => {
 
     const [products, setProducts] = useState([])
+    const [filterProducts, setFilterProducts] = useState([])
+    const [filterOptions, setFilterOptions] = useState(initialFilterOptions)
+
     const { query } = useArmoonia()
 
     useEffect(() => {
-        const fetchProducts = async (params) => {
+        const fetchProducts = async () => {
             const products = await query('/api/products/')
             setProducts(products)
         }
@@ -32,7 +40,6 @@ const ProductProvider = (props) => {
     }, [products])
 
     const deleteProduct = useCallback(async (id) => {
-        console.log(id)
         await query(`api/products/${id}`, {
             method: httpMethod.DELETE
         })
@@ -63,12 +70,57 @@ const ProductProvider = (props) => {
         }
     }, [products])
 
+    const setSearchInput = useCallback((value) => {
+        setFilterOptions({ ...filterOptions, input: value })
+    }, [filterOptions, setFilterOptions])
+
+    const addCategory = useCallback((category) => {
+        setFilterOptions({ ...filterOptions, categories: [ ...filterOptions.categories, category ] })
+    }, [filterOptions, setFilterOptions])
+
+    const removeCategory = useCallback((category) => {
+        const index = filterOptions.categories.indexOf(category)
+        if (index >= 0) {
+            filterOptions.categories.splice(index, 1)
+        }
+        setFilterOptions({ ...filterOptions })
+    }, [filterOptions, setFilterOptions])
+
+    useEffect(() => {
+        let filteredProducts = products
+        if (filterOptions.input) {
+            const input = filterOptions.input.toLowerCase()
+            filteredProducts = filteredProducts.filter(product => {
+                if (product.product.name.toLowerCase().includes(input)) {
+                    return true
+                }
+                if (product.product.description.toLowerCase().includes(input)) {
+                    return true
+                }
+                return false
+            })
+        }
+        if (filterOptions.categories.length !== 0) {
+            filteredProducts = filteredProducts.filter(product => {
+                return filterOptions.categories.includes(product.product.category)
+            })
+        }
+        setFilterProducts([...filteredProducts])
+    }, [products, filterOptions, setFilterProducts])
+
     const value = useMemo(() => ({
         products,
+        filterProducts,
         addProduct,
         updateProduct,
-        deleteProduct
-    }), [products])
+        deleteProduct,
+        removeCategory,
+        addCategory,
+        setSearchInput
+    }), [
+        products,
+        filterProducts
+    ])
 
     return <ProductContext.Provider value={value} {...props} />
 }

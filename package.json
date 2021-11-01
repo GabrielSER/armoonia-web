@@ -26,7 +26,7 @@
     "start:css": "npx tailwindcss -i ./tailwind.css -o ./src/index.css --jit -w",
     "build": "react-scripts build"
   },
-  "proxy": "http://localhost:5000",
+  "proxy": "http://54.211.10.248:80",
   "eslintConfig": {
     "extends": [
       "react-app",

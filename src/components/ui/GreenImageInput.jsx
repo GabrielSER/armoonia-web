@@ -1,31 +1,54 @@
 import clsx from 'clsx'
-import { useState } from 'react'
-import axios from 'axios'
+import { useCallback, useEffect, useState } from 'react'
 import { BsImage } from 'react-icons/bs'
+import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 import ImageInput from './ImageInput'
-import {httpMethod} from '../../hooks/useArmoonia'
+import { httpMethod, useArmoonia } from '../../hooks/useArmoonia'
 
-const GreenImageInput = () => {
+const GreenImageInput = (props) => {
 
-    const [url, setUrl] = useState()
-    const [photoFile, setPhotoFile] = useState()
+    const {
+        name,
+        value,
+        onChange,
+        state,
+        setState,
+        changeLoading
+    } = props
 
-    const selectPhoto = ({ value }) => {
+    const { query, loading } = useArmoonia()
+    const [url, setUrl] = useState(value ?? state?.[name])
+
+    useEffect(() => {
+     changeLoading?.(loading)
+    }, [loading])
+
+    const selectPhoto = useCallback(async ({ value, event }) => {
         if (!value) {
             return
         }
-        const url = URL.createObjectURL(value)
-        console.log(url)
-        setUrl(url)
-        setPhotoFile(value)
-    }
+        const temporalUrl = URL.createObjectURL(value)
+        setUrl(temporalUrl)
+        const url = await uploadPhoto(value)
+        if (onChange) {
+            const change = { value: url, event }
+            if (name) {
+                change.name = name
+            }
+            onChange(change)
+        }
+        setState?.({ ...state, [name]: url })
+    }, [name, onChange, state, setState])
 
-    const uploadPhoto = async () => {
+    const uploadPhoto = async (photoFile) => {
         const formData = new FormData()
         formData.append('file', photoFile)
-        const response = await axios(`/files/upload`, {
+        const response = await query(`/api/files/upload`, {
             method: httpMethod.POST,
-            data: formData
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            body: formData
         })
         return response.url
     }
@@ -34,6 +57,7 @@ const GreenImageInput = () => {
         <ImageInput
             className={clsx(
                 'flex',
+                'relative',
                 'justify-center',
                 'items-center',
                 'w-full',
@@ -45,6 +69,12 @@ const GreenImageInput = () => {
             )}
             onChange={selectPhoto}
         >
+            {
+                 loading && 
+                <div className='absolute flex z-20 w-full h-full justify-center items-center bg-shadow'>
+                    <AiOutlineLoading3Quarters className='animate-spin text-4xl text-white'/>
+                </div>
+            }
             {
                 url &&
                 <img className='w-full h-full object-cover' src={url} />

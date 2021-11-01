@@ -16,7 +16,10 @@ const Button = (props) => {
                 'focus:opacity-70',
                 'focus:border',
                 'focus:border-quaternary',
-                'focus:outline-none'
+                'focus:outline-none',
+                'disabled:bg-shadow',
+                'disabled:text-gray-600',
+                'disabled:cursor-wait'
             )}
             {...props}
         />

@@ -4,8 +4,8 @@ import { useAdmin } from '../../contexts/AdminContext'
 import { BsFillCartPlusFill, BsFillCartDashFill, BsPencilFill } from 'react-icons/bs'
 import { MdDelete } from 'react-icons/md'
 import Card from './Card'
-import { ProductProvider, useProducts } from '../../contexts/ProductContext'
-
+import { useProducts } from '../../contexts/ProductContext'
+import product_categories from '../../assets/data/product_categories.json'
 
 const CartButton = (props) => {
 
@@ -89,18 +89,24 @@ const ProductCard = (props) => {
     const { detail, openUpdate } = props
     const { product, amount } = detail
 
+    const getCategoryLabel = (value) => {
+        const category = product_categories.find(category => category.value === value)
+        return category?.label ?? 'No definida'
+    }
+
     return (
         <Card className='w-64 h-96 flex-shrink-0'>
             <div
                 className={clsx(
                     'flex',
                     'relative',
+                    'rounded',
                     'w-full',
                     'h-3/5'
                 )}
             >
                 <img
-                    className='w-full h-full object-cover'
+                    className='w-full h-full object-cover rounded-top'
                     src={product.photo}
                 />
                 <ButtonBar product={detail} openUpdate={openUpdate} />
@@ -132,7 +138,7 @@ const ProductCard = (props) => {
                         'font-semibold'
                     )}
                 >
-                    {product.category}
+                    {getCategoryLabel(product.category)}
                 </label>
             </div>
             <div className='flex flex-col p-3'>

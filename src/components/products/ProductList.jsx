@@ -12,10 +12,9 @@ import UpdateProduct from './UpdateProduct'
 
 const ProductList = () => {
 
-    const { products } = useProducts()
+    const { filterProducts } = useProducts()
     const { validated } = useAdmin()
     const [modal, setModal] = useState()
-
 
     const closeModal = useCallback(() => {
         setModal(undefined)
@@ -29,7 +28,6 @@ const ProductList = () => {
         setModal(<UpdateProduct product={product} closeModal={closeModal} />)
     }, [setModal, closeModal])
 
-
     return (
         <div
             className={clsx(
@@ -37,9 +35,10 @@ const ProductList = () => {
                 'flex-wrap',
                 'w-full h-full',
                 'justify-center',
-                'gap-8',
                 'overflow-x-hidden',
-                'overflow-y-auto'
+                'overflow-y-auto',
+                'pb-8',
+                'gap-4'
             )}
         >
             {
@@ -49,19 +48,20 @@ const ProductList = () => {
                 </Modal>
             }
             <Carrousell />
-            {
-                validated &&
-                <NewProductCard openCreate={openCreateProduct} />
-            }
-            {
-                products.map((product, index) =>
-                    <ProductCard
-                        key={index}
-                        detail={product}
-                        openUpdate = {openUpdateProduct}
-                    />
-                )
-            }
+           
+                {
+                    validated &&
+                    <NewProductCard openCreate={openCreateProduct} />
+                }
+                {
+                    filterProducts.map((product, index) =>
+                        <ProductCard
+                            key={index}
+                            detail={product}
+                            openUpdate={openUpdateProduct}
+                        />
+                    )
+                }
         </div>
     )
 }

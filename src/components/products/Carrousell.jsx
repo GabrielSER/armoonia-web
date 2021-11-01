@@ -57,13 +57,12 @@ const Carrousell = () => {
     }, [next])
 
     return (
-        <div className='p-6 w-full'>
+        <div className='flex p-6 w-full'>
             <div
                 className={clsx(
                     'flex',
                     'relative',
-                    'w-full',
-                    'h-[60vh]',
+                    'w-full h-[60vh]',
                     'text-gray-100'
                 )}
             >

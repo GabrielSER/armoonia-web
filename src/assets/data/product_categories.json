@@ -2,36 +2,43 @@
     {
         "value": "earing",
         "label": "Arete",
+        "plural": "Aretes",
         "image": "arete.png"
     },
     {
         "value": "bracelet",
         "label": "Brazalete",
+        "plural": "Brazaletes",
         "image": "pulsera.png"
     },
     {
         "value": "anklet",
         "label": "Tobillera",
+        "plural": "Tobilleras",
         "image": "tobillera.png"
     },
     {
         "value": "earcuff",
         "label": "Earcuff",
+        "plural": "Earcuffs",
         "image": "earcuff.png"
     },
     {
         "value": "collar",
         "label": "Collar",
+        "plural": "Collares",
         "image": "collar.png"
     },
     {
         "value": "glasses_acc",
         "label": "Gafero",
+        "plural": "Gaferos",
         "image": "gafero.png"
     },
     {
         "value": "facemask",
         "label": "Tapabocas",
+        "plural": "Tapabocas",
         "image": "tapabocas.png"
     }
 ]

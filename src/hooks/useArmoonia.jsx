@@ -1,8 +1,6 @@
 import axios from 'axios'
 import base64 from 'base-64'
-import { useState, useCallback } from 'react'
-import { useAdmin } from '../contexts/AdminContext'
-
+import { useState } from 'react'
 import packageJson from '../../package.json'
 
 const apiUrl = packageJson.proxy
@@ -16,36 +14,37 @@ const httpMethod = {
 
 const useArmoonia = () => {
 
-    const {username, password, validated} = useAdmin()
     const [loading, setLoading] = useState(false)
 
-    const query = useCallback(async (route, options) => {
-        const fetchOptions = {
+    const query = async (route, options) => {
+        const axiosOptions = {
             baseURL: apiUrl,
             url: route,
             method: options?.method ?? httpMethod.GET
         }
         if (options?.body) {
-            fetchOptions.data = options.body
+            axiosOptions.data = options.body
         }
-        fetchOptions.headers = {
+        axiosOptions.headers = {
             'Access-Control-Allow-Origin': '*'
         }
         if (options?.headers) {
-            fetchOptions.headers = {
-                ...fetchOptions.headers,
+            axiosOptions.headers = {
+                ...axiosOptions.headers,
                 ...options.headers
             }
         }
-        if (validated) {
-            fetchOptions.headers = {
-                ...fetchOptions.headers,
+        const username = localStorage.getItem('username')
+        const password = localStorage.getItem('password') 
+        if (username && password) {
+            axiosOptions.headers = {
+                ...axiosOptions.headers,
                 'Authorization': 'Basic ' + base64.encode(username + ':' + password)
             }
         }
         setLoading(true)
         try {
-            const rawResponse = await axios(fetchOptions)
+            const rawResponse = await axios(axiosOptions)
             let body = rawResponse.data
             if (typeof body !== 'object' && !Array.isArray(body)) {
                 body = { message: body }
@@ -60,7 +59,7 @@ const useArmoonia = () => {
         finally {
             setLoading(false)
         }
-    }, [validated, username, password])
+    }
 
     return {query, loading}
 }

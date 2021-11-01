@@ -1,16 +1,13 @@
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import GreenInput from '../ui/GreenInput'
 import GreenTextArea from '../ui/GreenTextArea'
-import Input from '../ui/Input'
 import Card from './Card'
-import ImageInput from '../ui/ImageInput'
 import clsx from 'clsx'
 import GreenImageInput from '../ui/GreenImageInput'
 import GreenSelect from '../ui/GreenSelect'
 import Button from '../ui/Button'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
 import product_categories from '../../assets/data/product_categories.json'
-import { getPublicImage } from '../../common/images'
 
 const initialProduct = {
     name: '',
@@ -32,14 +29,13 @@ const ProductForm = (props) => {
 
     const [product, setProduct] = useState(productDetail?.product ?? initialProduct)
     const [amount, setAmount] = useState(productDetail?.amount ?? 1)
-
+    const [imageLoading, setImageLoading] = useState(false)
 
     const submit = async (product) => {
         const productDetail = {
             product,
             amount
         }
-        console.log(productDetail)
         try {
             await onSubmit(productDetail)
             closeModal()
@@ -90,7 +86,7 @@ const ProductForm = (props) => {
                 setState={setProduct}
                 options={product_categories}
                 valueField='value'
-                labelFunction={option => option?.label ?? 'NEL'}
+                labelFunction={option => option?.label}
             />
             <GreenTextArea
                 label='Descripción'
@@ -100,7 +96,12 @@ const ProductForm = (props) => {
             />
             <div className='flex w-full space-x-2'>
                 <div className='flex w-1/2 justify-center items-center'>
-                    <GreenImageInput />
+                    <GreenImageInput
+                        name='photo'
+                        state={product}
+                        setState={setProduct}
+                        changeLoading={setImageLoading}
+                    />
                 </div>
                 <div className='w-1/2'>
                     <GreenInput
@@ -118,7 +119,10 @@ const ProductForm = (props) => {
                     />
                 </div>
             </div>
-            <Button onClick={() => submit(product)}>
+            <Button
+                onClick={() => submit(product)}
+                disabled={imageLoading}
+            >
                 {buttonText}
             </Button>
         </Card>

@@ -5,6 +5,7 @@ import {
     useMemo,
     useContext
 } from 'react'
+import { httpMethod, useArmoonia } from '../hooks/useArmoonia'
 
 const AdminContext = createContext()
 
@@ -17,38 +18,50 @@ const initialState = {
 const AdminProvider = (props) => {
 
     const [state, setState] = useState(initialState)
+    const { query } = useArmoonia()
 
     const validate = async (username, password) => {
         if (!username || !password) {
-            return false
+            throw new Error('Usuario o contraseña inválida')
         }
-        //Validate with backend
-        return true
+        await query('/api/login', {
+            method: httpMethod.POST
+        })
     }
 
     const setCredentials = async (username, password) => {
-        const validated = await validate(username, password)
+        await validate(username, password)
         setState({
             ...state,
             username,
             password,
-            validated
+            validated: true
         })
-        return validated
     }
 
     useEffect(() => {
-        const username = localStorage.getItem('username')
-        const password = localStorage.getItem('password')
-        setCredentials(username, password)
+        const setInitialCredentials = async () => {
+            try {
+                const username = localStorage.getItem('username')
+                const password = localStorage.getItem('password')
+                await setCredentials(username, password)
+            } 
+            catch (error) {
+                logout()
+            }
+        }
+        setInitialCredentials()
     }, [])
 
     const login = async (username, password) => {
-        localStorage.setItem('username', username)
-        localStorage.setItem('password', password)
-        const validated = await setCredentials(username, password)
-        if(!validated) {
-            throw new Error('Usuario o contraseña inválida')
+        try {
+            localStorage.setItem('username', username)
+            localStorage.setItem('password', password)
+            await setCredentials(username, password)
+        }
+        catch (error) {
+            logout()
+            throw error
         }
     }
 

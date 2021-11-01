@@ -1,20 +1,26 @@
 
 import Logo from '../ui/Logo'
-import { useState } from 'react'
-import Input from '../ui/Input'
-import Button from '../ui/Button'
+import { useEffect, useState } from 'react'
 import clsx from 'clsx'
 import { useAdmin } from '../../contexts/AdminContext'
 import AdminNavigation from './AdminNavigation'
 import { BsSearch } from 'react-icons/bs'
-
+import { useProducts } from '../../contexts/ProductContext'
 
 const SearchInput = () => {
 
     const [inputValue, setInputValue] = useState('')
+    const {setSearchInput} = useProducts()
+
+    useEffect(() => {
+        const timeOutId = setTimeout(()=>{
+            search()
+        }, 300)
+        return () => clearTimeout(timeOutId)
+    }, [inputValue])
 
     const search = () => {
-        alert(JSON.stringify(inputValue))
+        setSearchInput(inputValue)
     }
 
     return (
@@ -105,10 +111,12 @@ const Header = () => {
                 'h-24 md:h-32',
                 'flex-initial',
                 'bg-secondary',
-                'shadow-lg'
+                'shadow-lg',
+                'overflow-x-hidden',
+                'overflow-y-hidden'
             )}
         >
-            <Logo className='w-24 md:w-32 p-2' />
+            <Logo className='w-20 h-20 md:w-28 md:h-28 p-2' />
             <div
                 className={clsx(
                     'flex',
@@ -136,7 +144,6 @@ const Header = () => {
                     )}>
                     <SearchInput />
                     <Title />
-
                 </div>
             </div>
         </div>
