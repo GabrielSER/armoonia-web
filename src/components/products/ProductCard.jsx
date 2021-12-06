@@ -70,15 +70,15 @@ const ButtonBar = (props) => {
                     </CartButton>
                 </>
             }
-            {/**<CartButton
+            <CartButton
                 onClick={() => console.log('Remover de carro')}
-                className='text-red-400'
+                className='text-red-500'
             >
                 <BsFillCartDashFill />
             </CartButton>
             <CartButton className='text-primary'>
                 <BsFillCartPlusFill />
-            </CartButton>**/}
+            </CartButton>
         </div>
     )
 }
@@ -93,7 +93,6 @@ const ProductCard = (props) => {
         const category = product_categories.find(category => category.value === value)
         return category?.label ?? 'No definida'
     }
-
     return (
         <Card className='w-64 h-96 flex-shrink-0'>
             <div
@@ -107,7 +106,7 @@ const ProductCard = (props) => {
             >
                 <img
                     className='w-full h-full object-cover rounded-top'
-                    src={product.photo}
+                    src={product?.photo}
                 />
                 <ButtonBar product={detail} openUpdate={openUpdate} />
                 <label

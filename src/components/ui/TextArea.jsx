@@ -26,7 +26,7 @@ const TextArea = (props) => {
     const onValueChange = (event) => {
         const value = event.target.value
         const textArea = textAreaRef?.current
-        if (textArea) {
+        if (textArea?.style.height.replace('px', '') <= textArea?.scrollHeight) {
             textArea.style.height = textArea.scrollHeight + 'px'
         }
         if (onChange) {

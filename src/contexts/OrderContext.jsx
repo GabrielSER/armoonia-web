@@ -1,3 +1,4 @@
+import { useCallback } from 'react'
 import {
     createContext,
     useState,
@@ -5,11 +6,15 @@ import {
     useMemo,
     useContext
 } from 'react'
-import { useArmoonia } from '../hooks/useArmoonia'
+import Orders from '../components/orders/Orders'
+import { httpMethod, useArmoonia } from '../hooks/useArmoonia'
 import { useAdmin } from './AdminContext'
 
 const OrderContext = createContext()
 
+const initialFilterOptions = {
+    input: ''
+}
 const OrderProvider = (props) => {
 
     const [orders, setOrders] = useState([])
@@ -28,13 +33,24 @@ const OrderProvider = (props) => {
         fetchOrders()
     }, [validated])
 
-    const addOrder = (value) => {
+    const addOrder = useCallback(async (order)  => {        
+        const newOrder = await query('api/orders/', {
+        method: httpMethod.POST,
+        body: order
+    })
+    setOrders([...orders, newOrder])
+}, [orders])
 
-    }
-
-    const removeOrder = () => {
-
-    }
+    const removeOrder = useCallback(async (id) => {
+        await query(`api/orders/${id}`, {
+            method: httpMethod.DELETE
+        })
+        const index = orders.findIndex(order => order.id === id)
+        if (index >= 0) {
+            orders.splice(index, 1)
+            setOrders([...orders])
+        }
+    }, [orders])
 
     const value = useMemo(() => ({
         orders,

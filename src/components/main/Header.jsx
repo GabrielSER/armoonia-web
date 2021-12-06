@@ -5,15 +5,43 @@ import clsx from 'clsx'
 import { useAdmin } from '../../contexts/AdminContext'
 import AdminNavigation from './AdminNavigation'
 import { BsSearch } from 'react-icons/bs'
+import { BsFillCartFill, BsFillCartDashFill, BsPencilFill } from 'react-icons/bs'
 import { useProducts } from '../../contexts/ProductContext'
+
+const CartButton = (props) => {
+
+    const { className } = props
+    const properties = { ...props }
+    delete properties.className
+
+    return (
+        <button
+            className={clsx(
+                'flex',
+                'w-10 h-10',
+                'justify-center',
+                'items-center',
+                'rounded-full',
+                'bg-secondary/50',
+                'text-2xl',
+                'transition duration-200 ease-in-out',
+                'hover:opacity-70',
+                'hover:scale-110',
+                'border-2 border-primary',
+                className
+            )}
+            {...properties}
+        />
+    )
+}
 
 const SearchInput = () => {
 
     const [inputValue, setInputValue] = useState('')
-    const {setSearchInput} = useProducts()
+    const { setSearchInput } = useProducts()
 
     useEffect(() => {
-        const timeOutId = setTimeout(()=>{
+        const timeOutId = setTimeout(() => {
             search()
         }, 300)
         return () => clearTimeout(timeOutId)
@@ -24,7 +52,10 @@ const SearchInput = () => {
     }
 
     return (
-        <div className='md:pr-4'>
+        <div className='md:pr-4 flex flex-row space-x-5'>
+            <CartButton className='text-primary'>
+                <BsFillCartFill />
+            </CartButton>
             <div
                 className={clsx(
                     'flex',

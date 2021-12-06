@@ -63,11 +63,10 @@ const AdminNavigation = () => {
                 <RouteButton to='/products'>
                     Productos
                 </RouteButton>
-               {
-                /**<RouteButton to='/orders'>
+                <RouteButton to='/orders'>
                     Ordenes
                 </RouteButton>
-               **/} 
+               
             </div>
             <button
                 className={clsx(
