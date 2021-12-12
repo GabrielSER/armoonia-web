@@ -5,7 +5,7 @@ import clsx from 'clsx'
 import { useAdmin } from '../../contexts/AdminContext'
 import AdminNavigation from './AdminNavigation'
 import { BsSearch } from 'react-icons/bs'
-import { BsFillCartFill, BsFillCartDashFill, BsPencilFill } from 'react-icons/bs'
+import { BsFillCartFill } from 'react-icons/bs'
 import { useProducts } from '../../contexts/ProductContext'
 
 const CartButton = (props) => {

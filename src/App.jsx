@@ -11,7 +11,7 @@ const App = () => {
         <div className='flex fixed inset-0 w-full h-full bg-white overflow-x-hidden overflow-y-hidden'>
           <Switch>
             <Redirect exact from='/' to='/products'/> 
-            <Route exact path='/admin' exact component={Login} />
+            <Route exact path='/admin' component={Login} />
             <Route path='/**' component={Main} />
           </Switch>
         </div>

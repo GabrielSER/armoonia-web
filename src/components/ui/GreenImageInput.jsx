@@ -61,7 +61,7 @@ const GreenImageInput = (props) => {
                 'justify-center',
                 'items-center',
                 'w-full',
-                'aspect-w-16 aspect-h-9',
+                'aspect-video',
                 'border',
                 'border-primary',
                 'bg-secondary',

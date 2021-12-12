@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import GreenInput from '../ui/GreenInput'
 import GreenTextArea from '../ui/GreenTextArea'
 import Card from './Card'
@@ -28,12 +28,17 @@ const ProductForm = (props) => {
     } = props
 
     const [product, setProduct] = useState(productDetail?.product ?? initialProduct)
+    const [photos, setPhotos] = useState(productDetail?.photos ?? [])
     const [amount, setAmount] = useState(productDetail?.amount ?? 1)
     const [imageLoading, setImageLoading] = useState(false)
 
-    const submit = async (product) => {
+    const submit = useCallback(async () => {
+        const productDTO = { ...product }
+        if (photos.length > 0) {
+            productDTO.photos = photos
+        }
         const productDetail = {
-            product,
+            product: productDTO,
             amount
         }
         try {
@@ -42,7 +47,13 @@ const ProductForm = (props) => {
         } catch (error) {
             console.error(error)
         }
+    }, [product, photos, amount])
 
+    const addPhoto = (change) => {
+        const photo = {
+            photo: change.value
+        }
+        setPhotos([...photos, photo])
     }
 
     return (
@@ -98,8 +109,8 @@ const ProductForm = (props) => {
                 <div className='flex w-1/2 justify-center items-center'>
                     <GreenImageInput
                         name='photo'
-                        state={product}
-                        setState={setProduct}
+                        value={photos?.[photos.length - 1]}
+                        onChange={addPhoto}
                         changeLoading={setImageLoading}
                     />
                 </div>
@@ -120,7 +131,7 @@ const ProductForm = (props) => {
                 </div>
             </div>
             <Button
-                onClick={() => submit(product)}
+                onClick={submit}
                 disabled={imageLoading}
             >
                 {buttonText}

@@ -1,9 +1,6 @@
 import clsx from 'clsx'
 import { useCallback, useEffect, useState } from 'react'
 import { BsChevronCompactRight, BsChevronCompactLeft } from 'react-icons/bs'
-import carrousel_images from '../../assets/data/carrusel_images.json'
-import { getPublicImage } from '../../common/images'
-const carrousell_routes = carrousel_images.map(image => getPublicImage(image))
 
 const Arrow = (props) => {
 
@@ -17,7 +14,7 @@ const Arrow = (props) => {
                 'absolute',
                 'items-center',
                 'justify-center',
-                'w-12',
+                'w-8',
                 'h-full',
                 'hover:bg-shadow',
                 'text-2xl',
@@ -30,9 +27,9 @@ const Arrow = (props) => {
     )
 }
 
-const Carrousell = () => {
+const Carrousell = (props) => {
 
-    const [images, setImages] = useState(carrousell_routes)
+    const { images, className, slideTime=5000 } = props
     const [index, setIndex] = useState(-1)
 
     useEffect(() => {
@@ -41,49 +38,56 @@ const Carrousell = () => {
 
     const next = useCallback(() => {
         const nextIndex = index === images.length - 1 ? 0 : index + 1
-        setIndex(nextIndex)
+        if(nextIndex !== index) {
+            setIndex(nextIndex)
+        }
     }, [index, images])
 
     const previous = useCallback(() => {
         const previousIndex = index === 0 ? images.length - 1 : index - 1
-        setIndex(previousIndex)
+        if(previousIndex !== index) {
+            setIndex(previousIndex)
+        }
     }, [index, images])
 
     useEffect(() => {
         const intervalId = setInterval(() => {
             next()
-        }, 10000)
+        }, slideTime)
         return () => clearInterval(intervalId)
-    }, [next])
+    }, [next, slideTime])
 
     return (
-        <div className='flex p-6 w-full'>
-            <div
-                className={clsx(
-                    'flex',
-                    'relative',
-                    'w-full h-[60vh]',
-                    'text-gray-100'
-                )}
-            >
+        <div
+            className={clsx(
+                'flex',
+                'relative',
+                className
+            )}
+        >
+            {
+                images.length > 1 &&
                 <Arrow onClick={previous} >
                     <BsChevronCompactLeft />
                 </Arrow>
-                {
-                    index >= 0 &&
-                    <img
-                        className='w-full h-full object-cover'
-                        src={images[index]}
-                    />
-                }
+            }
+            {
+                index >= 0 &&
+                <img
+                    className='w-full h-full object-cover'
+                    src={images[index]}
+                    alt=''
+                />
+            }
+            {
+                images.length > 1 &&
                 <Arrow
                     className='right-0'
                     onClick={next}>
                     <BsChevronCompactRight />
                 </Arrow>
-            </div>
+            }
         </div>
-
     )
 }
 

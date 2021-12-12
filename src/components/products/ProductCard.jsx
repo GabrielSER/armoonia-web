@@ -6,6 +6,7 @@ import { MdDelete } from 'react-icons/md'
 import Card from './Card'
 import { useProducts } from '../../contexts/ProductContext'
 import product_categories from '../../assets/data/product_categories.json'
+import Carrousell from './Carrousell'
 
 const CartButton = (props) => {
 
@@ -101,12 +102,14 @@ const ProductCard = (props) => {
                     'relative',
                     'rounded',
                     'w-full',
-                    'h-3/5'
+                    'h-3/5',
+                    'overflow-x-hidden',
+                    'overflow-y-hidden'
                 )}
             >
-                <img
+                <Carrousell
                     className='w-full h-full object-cover rounded-top'
-                    src={product?.photo}
+                    images={product.photos?.map(photo => photo.photo)}
                 />
                 <ButtonBar product={detail} openUpdate={openUpdate} />
                 <label
