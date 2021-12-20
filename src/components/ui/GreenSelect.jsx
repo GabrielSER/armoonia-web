@@ -39,7 +39,7 @@ const GreenSelect = (props) => {
         <>
             {
                 label &&
-                <label className='flex font-montserrat text-sm'>
+                <label className='flex font-montserrat font-bold text-sm'>
                     {label}
                 </label>
             }

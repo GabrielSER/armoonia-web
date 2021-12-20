@@ -1,6 +1,6 @@
 import axios from 'axios'
 import base64 from 'base-64'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import packageJson from '../../package.json'
 
 const apiUrl = packageJson.proxy
@@ -16,7 +16,8 @@ const useArmoonia = () => {
 
     const [loading, setLoading] = useState(false)
 
-    const query = async (route, options) => {
+    const query = useCallback(
+        async (route, options) => {
         const axiosOptions = {
             baseURL: apiUrl,
             url: route,
@@ -59,7 +60,7 @@ const useArmoonia = () => {
         finally {
             setLoading(false)
         }
-    }
+    }, [])
 
     return {query, loading}
 }

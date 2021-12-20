@@ -1,17 +1,20 @@
 import { armooniaClass } from './common'
 
-const Button = (props) => {
+const Anchor = (props) => {
 
-    const { className } = props
+    const { className, children } = props
     const properties = { ...props }
     delete properties.className
+    delete properties.children
 
     return (
-        <button
+        <a
             className={armooniaClass(className)}
             {...properties}
-        />
+        >
+            {children}
+        </a>
     )
 }
 
-export default Button
+export default Anchor

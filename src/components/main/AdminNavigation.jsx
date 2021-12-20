@@ -66,7 +66,6 @@ const AdminNavigation = () => {
                 <RouteButton to='/orders'>
                     Ordenes
                 </RouteButton>
-               
             </div>
             <button
                 className={clsx(

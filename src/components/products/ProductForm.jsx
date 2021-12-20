@@ -57,7 +57,7 @@ const ProductForm = (props) => {
     }
 
     return (
-        <Card className='w-64 md:w-120 h-140 flex-shrink p-2 space-y-1'>
+        <Card className='flex-col w-64 md:w-120 h-140 flex-shrink p-2 space-y-1'>
             <div className='flex flex-row-reverse justify-between items-center'>
                 <button
                     className={clsx(

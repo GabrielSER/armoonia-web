@@ -4,53 +4,6 @@ import product_categories from '../../assets/data/product_categories.json'
 import { getPublicImage } from '../../common/images'
 import { useProducts } from '../../contexts/ProductContext'
 
-/**
-  <div
-            className={clsx(
-                'flex',
-                'flex-col',
-                'w-20 h-20',
-                'items-center',
-                'hover:underline',
-                'duration-200 ease-in-out transform hover:scale-110'
-            )}
-            onClick={onClick}
-            {...properties}
-        >
-            <img
-                className={clsx(
-                    'flex',
-                  
-                    'rounded-full',
-                    'hover:opacity-70',
-                    'border-2 border-transparent',
-                    'hover:border-primary',
-                    active && [
-                        'border-primary'
-                    ]
-                )}
-                src={getPublicImage(category.image)}
-                alt=''
-            />
-            <label
-                className={clsx(
-                    'flex',
-                    'w-full',
-                    'flex-shrink-0',
-                    'justify-center',
-                    'text-center',
-                    'text-sm',
-                    'font-montserrat',
-                    'text-gray-800',
-                    'font-black'
-                )}
-            >
-                {category.label}
-            </label>
-        </div >
-
- */
-
 const Category = (props) => {
 
     const { category } = props
@@ -145,7 +98,7 @@ const Categories = () => {
                 'flex-row md:flex-col',
                 'order-last md:order-first',
                 'flex-initial',
-                'w-full md:w-32 h-24 md:h-full',
+                'w-full md:w-36 h-24 md:h-full',
                 'gap-4 md:gap-6',
                 'bg-secondary',
                 'rounded',

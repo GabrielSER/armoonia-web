@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react'
 import carrousel_images from '../../assets/data/carrusel_images.json'
 import { getPublicImage } from '../../common/images'
 import { useProducts } from '../../contexts/ProductContext'
-import Carrousell from '../products/Carrousell'
+import Carrousell from '../ui/Carousell'
 const carrousell_routes = carrousel_images.map(image => getPublicImage(image))
 
-const HeaderCarrousell = () => {
+const HeaderCarousell = () => {
 
     const { products } = useProducts()
 
@@ -26,7 +26,7 @@ const HeaderCarrousell = () => {
     return (
         <div className='flex w-full p-6'>
             <Carrousell
-                className='w-full h-[60vh] text-gray-100'
+                className='w-full aspect-video text-gray-100'
                 images={images}
                 slideTime={10000}
             />
@@ -34,4 +34,4 @@ const HeaderCarrousell = () => {
     )
 }
 
-export default HeaderCarrousell
+export default HeaderCarousell

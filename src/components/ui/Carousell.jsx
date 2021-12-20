@@ -27,14 +27,18 @@ const Arrow = (props) => {
     )
 }
 
-const Carrousell = (props) => {
+const Carousell = (props) => {
 
     const { images, className, slideTime=5000 } = props
     const [index, setIndex] = useState(-1)
 
     useEffect(() => {
         setIndex(0)
-    }, [])
+    }, [images])
+
+    const getImage = useCallback(() => {
+      return images[index]  
+    }, [images, index])
 
     const next = useCallback(() => {
         const nextIndex = index === images.length - 1 ? 0 : index + 1
@@ -75,7 +79,7 @@ const Carrousell = (props) => {
                 index >= 0 &&
                 <img
                     className='w-full h-full object-cover'
-                    src={images[index]}
+                    src={getImage()}
                     alt=''
                 />
             }
@@ -91,4 +95,4 @@ const Carrousell = (props) => {
     )
 }
 
-export default Carrousell
+export default Carousell

@@ -1,4 +1,4 @@
-//const defaultTheme = require('tailwindcss/defaultTheme')
+const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
   mode: 'jit',
@@ -8,6 +8,10 @@ module.exports = {
   ],
   darkMode: 'class',
   theme: {
+    screens: {
+      'xs': '470px',
+      ...defaultTheme.screens
+    },
     extend: {
       colors: {
         'primary': 'rgb(4, 120, 87)',

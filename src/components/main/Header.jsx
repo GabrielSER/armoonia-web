@@ -7,31 +7,47 @@ import AdminNavigation from './AdminNavigation'
 import { BsSearch } from 'react-icons/bs'
 import { BsFillCartFill } from 'react-icons/bs'
 import { useProducts } from '../../contexts/ProductContext'
+import { useCart } from '../../contexts/CartContext'
+import Badge from '../ui/Badge'
+import { Link } from 'react-router-dom'
 
 const CartButton = (props) => {
 
+    const { cartProducts } = useCart()
     const { className } = props
     const properties = { ...props }
     delete properties.className
 
     return (
-        <button
-            className={clsx(
-                'flex',
-                'w-10 h-10',
-                'justify-center',
-                'items-center',
-                'rounded-full',
-                'bg-secondary/50',
-                'text-2xl',
-                'transition duration-200 ease-in-out',
-                'hover:opacity-70',
-                'hover:scale-110',
-                'border-2 border-primary',
-                className
-            )}
-            {...properties}
-        />
+        <div className='h-14 xs:h-min'>
+            <div>
+                <Link
+                    className={clsx(
+                        'flex',
+                        'w-10 h-10',
+                        'justify-center',
+                        'items-center',
+                        'rounded-full',
+                        'bg-secondary/50',
+                        'text-2xl',
+                        'transition duration-200 ease-in-out',
+                        'hover:opacity-70',
+                        'hover:scale-110',
+                        'border-2 border-primary',
+                        className
+                    )}
+                    to='/cart'
+                >
+                    {properties.children}
+                </Link>
+                {
+                    cartProducts.length > 0 &&
+                    <div className='relative flex'>
+                        <Badge text={cartProducts.length} />
+                    </div>
+                }
+            </div>
+        </div>
     )
 }
 
@@ -52,7 +68,7 @@ const SearchInput = () => {
     }
 
     return (
-        <div className='md:pr-4 flex flex-row space-x-5'>
+        <div className='flex flex-row space-x-5'>
             <CartButton className='text-primary'>
                 <BsFillCartFill />
             </CartButton>
@@ -96,7 +112,8 @@ const SearchInput = () => {
                         'focus:border-quaternary',
                         'focus:outline-none'
                     )}
-                    onClick={search}>
+                    onClick={search}
+                >
                     <BsSearch />
                     <span className='hidden md:flex'>
                         Buscar
@@ -109,26 +126,27 @@ const SearchInput = () => {
 
 const Title = () => {
     return (
-        <span
+        <p
             className={clsx(
-                'hidden md:flex',
-                'flex-wrap',
-                'md:gap-x-2',
-                'text-2xl md:text-3xl',
+                'hidden xs:flex',
+                'w-full',
+                'gap-x-2',
+                'p-1',
+                'text-2xl sm:text-3xl',
                 'text-gray-800',
                 'font-moontime',
-                'font-black'
+                'font-black',
+                'truncate'
             )}
         >
-            La belleza de estar en
-            <span className='text-primary'>
+            <span>La belleza de estar en</span>
+            <span className='flex text-md items-baseline text-primary'>
                 ARMOONIA
             </span>
-            con lo que eres
-        </span>
+            <span>con lo que eres</span>
+        </p>
     )
 }
-
 
 const Header = () => {
 
@@ -138,28 +156,19 @@ const Header = () => {
         <div
             className={clsx(
                 'flex',
-                'w-full',
-                'h-24 md:h-32',
                 'flex-initial',
+                'w-full',
+                (validated ? 'h-40' : 'h-min'),
                 'bg-secondary',
                 'shadow-lg',
                 'overflow-x-hidden',
                 'overflow-y-hidden'
             )}
         >
-            <Logo className='w-20 h-20 md:w-28 md:h-28 p-2' />
-            <div
-                className={clsx(
-                    'flex',
-                    'flex-col',
-                    'w-full',
-                    'justify-center',
-                    'overflow-y-hidden',
-                    'overflow-x-hidden',
-                    'p-1',
-                    'space-y-2'
-                )}
-            >
+            <div className='hidden xs:flex w-36 p-1 justify-center'>
+                <Logo />
+            </div>
+            <div className='flex flex-col w-full gap-1 p-1'>
                 {
                     validated &&
                     <AdminNavigation />
@@ -167,13 +176,15 @@ const Header = () => {
                 <div
                     className={clsx(
                         'flex',
-                        'flex-row-reverse',
-                        'justify-center',
-                        'justify-between',
-                        'flex-shrink-0',
-                        'w-full'
-                    )}>
-                    <SearchInput />
+                        'flex-col lg:flex-row-reverse',
+                        'w-full',
+                        'gap-1'
+                    )}
+                >
+                    <div className='flex w-full justify-between xs:justify-end'>
+                        <Logo className='flex xs:hidden h-10' />
+                        <SearchInput />
+                    </div>
                     <Title />
                 </div>
             </div>

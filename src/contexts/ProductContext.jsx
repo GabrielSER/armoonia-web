@@ -29,26 +29,32 @@ const ProductProvider = (props) => {
             setProducts(products)
         }
         fetchProducts()
-    }, [])
+    }, [query])
+
+    const getProduct =  useCallback((id) => {
+       return products.find(product => product.product.id === id)
+    }, [products])
 
     const addProduct = useCallback(async (product) => {
         const newProduct = await query('api/products/', {
             method: httpMethod.POST,
             body: product
         })
-        setProducts([...products, newProduct])
-    }, [products])
+        setProducts(previous => [...previous, newProduct])
+    }, [query])
 
     const deleteProduct = useCallback(async (id) => {
         await query(`api/products/${id}`, {
             method: httpMethod.DELETE
         })
-        const index = products.findIndex(product => product.product.id === id)
-        if (index >= 0) {
-            products.splice(index, 1)
-            setProducts([...products])
-        }
-    }, [products])
+        setProducts(previous => {
+            const index = previous.findIndex(product => product.product.id === id)
+            if (index >= 0) {
+                previous.splice(index, 1)
+            }
+            return [...previous]
+        })
+    }, [query])
 
     const updateProduct = useCallback(async (productDetail) => {
         const { product, amount } = productDetail
@@ -63,19 +69,21 @@ const ProductProvider = (props) => {
             method: httpMethod.PUT,
             body: product
         })
-        const index = products.findIndex(p => p.product.id === product.id)
-        if (index >= 0) {
-            products.splice(index, 1, updatedProduct)
-            setProducts([...products])
-        }
-    }, [products])
+        setProducts(previous => {
+            const index = previous.findIndex(p => p.product.id === product.id)
+            if (index >= 0) {
+                previous.splice(index, 1, updatedProduct)
+            }
+            return [...previous]
+        })
+    }, [query])
 
     const setSearchInput = useCallback((value) => {
         setFilterOptions({ ...filterOptions, input: value })
     }, [filterOptions, setFilterOptions])
 
     const addCategory = useCallback((category) => {
-        setFilterOptions({ ...filterOptions, categories: [ ...filterOptions.categories, category ] })
+        setFilterOptions({ ...filterOptions, categories: [...filterOptions.categories, category] })
     }, [filterOptions, setFilterOptions])
 
     const removeCategory = useCallback((category) => {
@@ -111,6 +119,7 @@ const ProductProvider = (props) => {
     const value = useMemo(() => ({
         products,
         filterProducts,
+        getProduct,
         addProduct,
         updateProduct,
         deleteProduct,
@@ -119,7 +128,14 @@ const ProductProvider = (props) => {
         setSearchInput
     }), [
         products,
-        filterProducts
+        filterProducts,
+        getProduct,
+        addProduct,
+        updateProduct,
+        deleteProduct,
+        removeCategory,
+        addCategory,
+        setSearchInput
     ])
 
     return <ProductContext.Provider value={value} {...props} />

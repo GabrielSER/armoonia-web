@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import logo from '../../assets/images/logo.png'
 
 const Logo = (props) => {
@@ -6,7 +7,10 @@ const Logo = (props) => {
 
     return (
         <img
-            className={className}
+            className={clsx(
+                'aspect-square object-contain',
+                className
+            )}
             src={logo}
             alt=''
         />

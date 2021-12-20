@@ -6,7 +6,8 @@ import { MdDelete } from 'react-icons/md'
 import Card from './Card'
 import { useProducts } from '../../contexts/ProductContext'
 import product_categories from '../../assets/data/product_categories.json'
-import Carrousell from './Carrousell'
+import Carousell from '../ui/Carousell'
+import { useCart } from '../../contexts/CartContext'
 
 const CartButton = (props) => {
 
@@ -41,9 +42,12 @@ const CartButton = (props) => {
 const ButtonBar = (props) => {
 
     const { product, openUpdate } = props
+    const { id } = product.product
+    const { cartProducts, addCartProduct, removeCartProduct } = useCart()
     const { deleteProduct } = useProducts()
-
     const { validated } = useAdmin()
+
+    const inCart = cartProducts.find(product => product.product.id === id)
 
     return (
         <div
@@ -65,21 +69,30 @@ const ButtonBar = (props) => {
                     </CartButton>
                     <CartButton
                         className='text-red-600'
-                        onClick={() => deleteProduct(product.product.id)}
+                        onClick={() => deleteProduct(id)}
                     >
                         <MdDelete />
                     </CartButton>
                 </>
             }
-            <CartButton
-                onClick={() => console.log('Remover de carro')}
-                className='text-red-500'
-            >
-                <BsFillCartDashFill />
-            </CartButton>
-            <CartButton className='text-primary'>
-                <BsFillCartPlusFill />
-            </CartButton>
+            {
+                inCart &&
+                <CartButton
+                    className='text-red-500'
+                    onClick={() => removeCartProduct(id)}
+                >
+                    <BsFillCartDashFill />
+                </CartButton>
+            }
+            {
+                !inCart &&
+                <CartButton
+                    className='text-primary'
+                    onClick={() => addCartProduct(product)}
+                >
+                    <BsFillCartPlusFill />
+                </CartButton>
+            }
         </div>
     )
 }
@@ -88,14 +101,17 @@ const ButtonBar = (props) => {
 const ProductCard = (props) => {
 
     const { detail, openUpdate } = props
-    const { product, amount } = detail
+    const { product, variants, amount } = detail
 
     const getCategoryLabel = (value) => {
         const category = product_categories.find(category => category.value === value)
         return category?.label ?? 'No definida'
     }
+
+    const photos = product.photos ?? variants.flatMap(variant => variant.photos)
+    
     return (
-        <Card className='w-64 h-96 flex-shrink-0'>
+        <Card className='flex-col w-64 h-96 flex-shrink-0'>
             <div
                 className={clsx(
                     'flex',
@@ -107,9 +123,9 @@ const ProductCard = (props) => {
                     'overflow-y-hidden'
                 )}
             >
-                <Carrousell
-                    className='w-full h-full object-cover rounded-top'
-                    images={product.photos?.map(photo => photo.photo)}
+                <Carousell
+                    className='w-full h-full object-cover rounded-top text-gray-100'
+                    images={photos?.map(photo => photo.photo)}
                 />
                 <ButtonBar product={detail} openUpdate={openUpdate} />
                 <label
@@ -144,12 +160,13 @@ const ProductCard = (props) => {
                 </label>
             </div>
             <div className='flex flex-col p-3'>
-                <label className={clsx(
-                    'h-12',
-                    'font-bold',
-                    'overflow-hidden',
-                    'overflow-ellipsis'
-                )}
+                <label
+                    className={clsx(
+                        'h-12',
+                        'font-bold',
+                        'overflow-hidden',
+                        'overflow-ellipsis'
+                    )}
                 >
                     {product.name}
                 </label>

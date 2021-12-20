@@ -8,7 +8,7 @@ const NewProductCard = (props) => {
     const {openCreate} = props
 
     return (
-        <Card className='w-64 h-96 p-4 flex-shrink-0'>
+        <Card className='flex-col w-64 h-96 p-4 flex-shrink-0'>
             <h3
                 className={clsx(
                     'text-center',

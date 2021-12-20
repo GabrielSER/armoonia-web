@@ -2,7 +2,7 @@ import clsx from 'clsx'
 import { useCallback, useState } from 'react'
 import { useAdmin } from '../../contexts/AdminContext'
 import { useProducts } from '../../contexts/ProductContext'
-import HeaderCarrousell from '../main/HeaderCarrousell'
+import HeaderCarousell from '../main/HeaderCarousell'
 import Modal from '../ui/Modal'
 import CreateProduct from './CreateProduct'
 import NewProductCard from './NewProductCard.jsx'
@@ -46,7 +46,7 @@ const ProductList = () => {
                     {modal}
                 </Modal>
             }
-            <HeaderCarrousell />
+            <HeaderCarousell />
                 {
                     validated &&
                     <NewProductCard openCreate={openCreateProduct} />
