@@ -25,6 +25,7 @@ const OrderProvider = (props) => {
         }
         const fetchOrders = async () => {
             const orders = await query('/api/orders/')
+            orders.sort((o1, o2)=> new Date(o2.order.created_at) - new Date(o1.order.created_at))
             setOrders(orders)
         }
         fetchOrders()
